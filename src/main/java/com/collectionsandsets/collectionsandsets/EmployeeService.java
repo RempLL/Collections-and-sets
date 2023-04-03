@@ -21,42 +21,32 @@ public class EmployeeService {
     ));
 
 
-    public void addEmployee(String name, String surname) {
+    public Employee addEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        boolean flag = false;
         for (Employee value : employee) {
             if (value.equals(newEmployee)) {
-                flag = true;
-                break;
+                throw new EmployeeAlreadyAddedException();
             }
         }
-        if (flag) {
-            throw new EmployeeAlreadyAddedException();
-        } else {
-            employee.add(newEmployee);
-        }
+        employee.add(newEmployee);
+        return newEmployee;
     }
 
-    public void removeEmployee(String name, String surname) {
+    public Employee removeEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        boolean flag = false;
         for (int i = 0; i < employee.size(); i++) {
             if (employee.get(i).equals(newEmployee)) {
-                employee.remove(i);
-                flag = true;
-                break;
+                return employee.remove(i);
             }
         }
-        if (!flag) {
-            throw new EmployeeNotFoundException();
-        }
+        throw new EmployeeNotFoundException();
     }
 
-    public boolean findEmployee(String name, String surname) {
+    public Employee findEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
         for (Employee value : employee) {
             if (value.equals(newEmployee)) {
-                return true;
+                return newEmployee;
             }
         }
         throw new EmployeeNotFoundException();
