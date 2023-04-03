@@ -3,6 +3,8 @@ package com.collectionsandsets.collectionsandsets;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -34,25 +36,21 @@ public class EmployeeService {
 
     public Employee removeEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        for (int i = 0; i < employee.size(); i++) {
-            if (employee.get(i).equals(newEmployee)) {
-                return employee.remove(i);
-            }
+        if (employee.remove(newEmployee)) {
+            return newEmployee;
         }
         throw new EmployeeNotFoundException();
     }
 
     public Employee findEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        for (Employee value : employee) {
-            if (value.equals(newEmployee)) {
-                return newEmployee;
-            }
+        if (employee.contains(newEmployee)) {
+            return newEmployee;
         }
         throw new EmployeeNotFoundException();
     }
 
-    public String print() {
-        return employee.toString();
+    public List<Employee> print() {
+        return Collections.unmodifiableList(employee);
     }
 }
