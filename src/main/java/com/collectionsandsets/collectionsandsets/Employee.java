@@ -1,10 +1,13 @@
 package com.collectionsandsets.collectionsandsets;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.Objects;
 
 public class Employee {
+    @JsonProperty("firstName")
     private final String name;
-
+    @JsonProperty("secondName")
     private final String surname;
 
 
