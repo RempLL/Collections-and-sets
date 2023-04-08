@@ -2,41 +2,35 @@ package com.collectionsandsets.collectionsandsets;
 
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
-    List<Employee> employee = new ArrayList<>(List.of(
-            new Employee("Альберт", "Миронов"),
-            new Employee("Виктор", "Меньшиков"),
-            new Employee("Андрей", "Абавикян"),
-            new Employee("Петр", "Первый"),
-            new Employee("Мария", "Воронова"),
-            new Employee("Федор", "Кислинкин"),
-            new Employee("Ренат", "Хабибулин"),
-            new Employee("Дмитрий", "Рогозов"),
-            new Employee("Роберт", "Иванов"),
-            new Employee("Павел", "Кучин")
-    ));
+    Map<String,Employee> employee = new HashMap<>(Map.of(
+            "1", new Employee("Альберт", "Миронов"),
+            "2",new Employee("Виктор", "Меньшиков"),
+            "3",new Employee("Андрей", "Абавикян"),
+            "4",new Employee("Петр", "Первый"),
+            "5",new Employee("Мария", "Воронова"),
+            "6",new Employee("Федор", "Кислинкин"),
+            "7",new Employee("Ренат", "Хабибулин"),
+            "8",new Employee("Дмитрий", "Рогозов"),
+            "9",new Employee("Роберт", "Иванов"),
+            "10",new Employee("Павел", "Кучин")));
 
-
-    public Employee addEmployee(String name, String surname) {
-        Employee newEmployee = new Employee(name, surname);
-        for (Employee value : employee) {
-            if (value.equals(newEmployee)) {
-                throw new EmployeeAlreadyAddedException();
-            }
+    public Employee addEmployee(String name,String surname){
+        Employee newEmployee = new Employee(name,surname);
+        if(employee.containsValue(newEmployee)){
+            throw new EmployeeAlreadyAddedException();
         }
-        employee.add(newEmployee);
+        employee.put(String.valueOf(employee.size()+1),newEmployee);
+        System.out.println(employee);
         return newEmployee;
     }
 
     public Employee removeEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        if (employee.remove(newEmployee)) {
+        if (employee.values().remove(newEmployee)) {
             return newEmployee;
         }
         throw new EmployeeNotFoundException();
@@ -44,13 +38,13 @@ public class EmployeeService {
 
     public Employee findEmployee(String name, String surname) {
         Employee newEmployee = new Employee(name, surname);
-        if (employee.contains(newEmployee)) {
+        if (employee.containsValue(newEmployee)) {
             return newEmployee;
         }
         throw new EmployeeNotFoundException();
     }
 
-    public List<Employee> print() {
-        return Collections.unmodifiableList(employee);
+    public String print() {
+        return employee.values().toString();
     }
 }
